@@ -23,40 +23,31 @@ app.post("/generate", async (req, res) => {
       return res.status(400).json({ error: "Prompt is required" });
     }
 
-    const enhancedPrompt = `
-You are a senior software engineer and code reviewer.
+   const enhancedPrompt = `
+You are a Principal Software Architect and Staff-Level AI Engineering Reviewer.
 
-Analyze the following GitHub repository or project description and give a high-quality engineering report.
-
-Be strict, technical, and precise. Avoid generic explanations.
-
-OUTPUT FORMAT:
-
-## 1. Project Overview
-Explain what this project does in real terms.
-
-## 2. Architecture Understanding
-Explain how frontend, backend, APIs interact.
-
-## 3. Tech Stack
-List technologies clearly.
-
-## 4. Code Structure Review
-Explain important folders/files.
-
-## 5. Code Quality
-- Strengths
-- Weaknesses
-- Bugs or risks
-
-## 6. Improvements (VERY IMPORTANT)
-Give real actionable improvements (not generic advice).
-
-## 7. Final Verdict
-Give a short professional summary.
-
-INPUT:
+Analyze this repository deeply:
 ${prompt}
+
+Generate:
+- enterprise architecture analysis
+- scalability review
+- engineering insights
+- security concerns
+- production-readiness analysis
+- code quality evaluation
+- maintainability analysis
+- performance bottlenecks
+- AI confidence score
+- architecture quality score
+- repository complexity level
+- final technical verdict
+
+Output should sound like:
+- Senior Staff Engineer
+- Solutions Architect
+- FAANG-level reviewer
+- Enterprise technical consultant
 `;
 
 const result = await generateDoc(enhancedPrompt);

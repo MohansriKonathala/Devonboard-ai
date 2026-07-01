@@ -3,25 +3,36 @@ require("dotenv").config();
 
 async function generateDoc(prompt) {
   try {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const response = await axios.post(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        temperature: 0.2,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    const url =
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
-
-    const response = await axios.post(url, {
-      contents: [
-        {
-          parts: [{ text: prompt }]
-        }
-      ]
-    });
-
-    return response.data.candidates?.[0]?.content?.parts?.[0]?.text
-      || "No response";
-
+    return (
+      response.data.choices?.[0]?.message?.content ||
+      "No response generated."
+    );
   } catch (error) {
-    console.log("GEMINI ERROR FULL:", error.response?.data || error.message);
-    return "Error generating response";
+    console.log(
+      "GROQ ERROR:",
+      error.response?.data || error.message
+    );
+    return "Error generating response.";
   }
 }
 
